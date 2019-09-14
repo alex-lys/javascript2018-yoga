@@ -2,6 +2,7 @@ window.addEventListener('DOMContentLoaded', function() {
     
     'use strict';
 
+    // tabs
     let tab = document.querySelectorAll('.info-header-tab'),
         info = document.querySelector('.info-header'),
         tabContent = document.querySelectorAll('.info-tabcontent');
@@ -33,5 +34,55 @@ window.addEventListener('DOMContentLoaded', function() {
                 }
             }
         }
-    })
+    });
+
+    // timer
+
+    let deadline = '2019-09-16';
+
+    function getTimeRemaining(endtime) {
+        let total = Date.parse(endtime) - Date.parse(new Date()),
+            seconds = Math.floor((total / 1000) % 60),
+            minutes = Math.floor((total / 1000/ 60) % 60),
+            hours = Math.floor(total / (1000 * 60 * 60));
+        
+        if (seconds < 10) {
+            seconds = '0' + seconds;
+        }
+        if (minutes < 10) {
+            minutes = '0' + minutes;
+        }
+        if (hours < 10) {
+            hours = '0' + minutes;
+        }
+
+
+        return {
+            'total' : total,
+            'hours' : hours,
+            'minutes' : minutes,
+            'seconds' : seconds
+        };
+    }
+
+    function setClock(id, endtime) {
+        let timer = document.getElementById(id),
+            hours = timer.querySelector('.hours'),
+            minutes = timer.querySelector('.minutes'),
+            seconds = timer.querySelector('.seconds'),
+            interval = setInterval(updateClock, 1000);
+
+        function updateClock() {
+            let timeData = getTimeRemaining(endtime);
+            hours.textContent = timeData.hours;
+            minutes.textContent = timeData.minutes;
+            seconds.textContent = timeData.seconds;
+
+            if (timeData.total <= 0) {
+                clearInterval(interval);
+            }
+        }
+    }
+    
+    setClock('timer', deadline);
 });
