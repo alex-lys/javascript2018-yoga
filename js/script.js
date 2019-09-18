@@ -80,9 +80,34 @@ window.addEventListener('DOMContentLoaded', function() {
 
             if (timeData.total <= 0) {
                 clearInterval(interval);
+
             }
         }
     }
     
     setClock('timer', deadline);
+
+    //modal
+
+    let more = document.querySelectorAll('.more, .description-btn'),
+        overlay = document.querySelector('.overlay'),
+        close = document.querySelector('.popup-close');
+    console.log(more);
+        
+    more.forEach(function(element) {
+        element.addEventListener('click', function() {
+            overlay.style.display = 'block';
+            console.log(this);
+            this.classList.add('more-splash');
+            document.body.style.overflow = 'hidden';
+        })
+    });
+
+    close.addEventListener('click', function() {
+        overlay.style.display = 'none';
+        more.forEach(function(element) {
+            element.classList.remove('more-splash');
+        })
+        document.body.style.overflow = '';
+    });
 });
