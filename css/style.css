@@ -627,6 +627,9 @@ header ul li:before {
       -ms-transform: translateX(-50%);
           transform: translateX(-50%);
 }
+.overlay .popup-thanks {
+  display: none;
+}
 .overlay .popup-close {
   position: absolute;
   right: -20px;
