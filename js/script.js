@@ -2,7 +2,7 @@ window.addEventListener('DOMContentLoaded', function() {
     
     'use strict';
 
-    // tabs
+    // Tabs
     let tab = document.querySelectorAll('.info-header-tab'),
         info = document.querySelector('.info-header'),
         tabContent = document.querySelectorAll('.info-tabcontent');
@@ -36,7 +36,7 @@ window.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // timer
+    // Timer
 
     let deadline = '2019-10-16';
 
@@ -89,7 +89,7 @@ window.addEventListener('DOMContentLoaded', function() {
     
     setClock('timer', deadline);
 
-    //modal
+    //Modals
 
     let more = document.querySelector('.more'),
         moreTab = [...document.querySelectorAll('.description-btn')],
@@ -115,7 +115,7 @@ window.addEventListener('DOMContentLoaded', function() {
         requestModal(element);
     });
 
-    //ajax forms
+    //AJAX Forms
     let message = {
         loading: 'Загрузка...',
         success: 'Спасибо, мы скоро свяжемся с вами!',
@@ -182,5 +182,99 @@ window.addEventListener('DOMContentLoaded', function() {
     };
     sendForm(form);
     sendForm(formBottom);
+
+    // Slider
+
+    let slideIndex = 1,
+        slides = document.querySelectorAll('.slider-item'),
+        prev = document.querySelector('.prev'),
+        next = document.querySelector('.next'),
+        dotsWarp = document.querySelector('.slider-dots'),
+        dots = document.querySelectorAll('.dot');
+
+    const showSlides = (number) => {
+        
+        if (number > slides.length) {
+            slideIndex = 1;
+        }
+        if (number < 1) {
+            slideIndex = slides.length;
+        }
+
+        slides.forEach((element) => element.style.display = 'none');
+        dots.forEach((element) => element.classList.remove('dot-active'));
+
+        slides[slideIndex - 1].style.display = 'block';
+        dots[slideIndex - 1].classList.add('dot-active');
+
+    }
+
+    showSlides(slideIndex);
+
+    const plusSlide = (number) => {
+        showSlides(slideIndex += number);
+    }
+
+    const currentSlide = (number) => {
+        showSlides(slideIndex = number);
+    }
+
+    prev.addEventListener('click', function() {
+        plusSlide(-1);
+    });
+
+    next.addEventListener('click', function() {
+        plusSlide(1);
+    });
+
+    dotsWarp.addEventListener('click', function(event) {
+        for (let i = 0; i < dots.length + 1; i += 1) {
+            if (event.target.classList.contains('dot') && event.target == dots[i - 1]) {
+                currentSlide(i);
+            }
+        }
+    });
+
+    //Calc
+    let inputPersons = document.querySelectorAll('.counter-block-input')[0],
+        inputDays = document.querySelectorAll('.counter-block-input')[1],
+        inputPlace = document.getElementById('select'),
+        inputTotal = document.getElementById('total'),
+        amountPersons = 0,
+        amountDays = 0,
+        amountTotal = 0;
+    
+    inputTotal.innerHTML = 0;
+
+    inputPersons.addEventListener('change', function() {
+        amountPersons = this.value;
+        amountTotal = 4000 * amountPersons * amountDays;
+
+        if (amountDays == '') {
+            inputTotal.innerHTML = 0;
+        } else {
+            inputTotal.innerHTML = amountTotal;
+        }
+    });
+
+    inputDays.addEventListener('change', function() {
+        amountDays = this.value;
+        amountTotal = 4000 * amountPersons * amountDays;
+
+        if (amountPersons == '') {
+            inputTotal.innerHTML = 0;
+        } else {
+            inputTotal.innerHTML = amountTotal;
+        }
+    });
+
+    inputPlace.addEventListener('change', function() {
+        if (amountDays == '' || amountPersons == '') {
+            inputTotal.innerHTML = 0;
+        } else {
+            // let a = amountTotal;
+            inputTotal.innerHTML = amountTotal * this.options[this.selectedIndex].value;
+        }
+    });
 
 });
